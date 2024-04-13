@@ -10,8 +10,9 @@ def prog(texto):
      
      ret = match[0]
      for i in range(1,len(match)):
-          ret = f"{ret + "\n" + match[i]}"
-          
+          ret = ret + "\n" + match[i]
+     
+     ret = f"{ret}"
      return ret
 
 if __name__ == '__main__':
