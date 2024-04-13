@@ -23,8 +23,9 @@ def prog(texto):
      ret = resAux[0][0] + ": " + str(resAux[0][1])
 
      for i in range(1,len(resAux)):
-          ret = f"{ret + "\n" + resAux[i][0] + ": " + str(resAux[i][1])}"
+          ret = ret + "\n" + resAux[i][0] + ": " + str(resAux[i][1])
 
+     ret = f"{ret}"
      return ret
 
 if __name__ == '__main__':

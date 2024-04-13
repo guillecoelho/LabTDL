@@ -14,8 +14,10 @@ def prog(texto):
      ret = res[0]
 
      for i in range(1,len(res)):
-          ret = f"{ret + "\n" + res[i]}"
+          ret = ret + "\n" + res[i]
 
+     ret = f"{ret}"
+     
      return ret
 
 if __name__ == '__main__':
