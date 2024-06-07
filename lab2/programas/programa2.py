@@ -24,7 +24,7 @@ X -> '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 
 grammar = """
 S -> A '+' A | A '-' A | A '/' A | A '*' A | N
-A -> '(' A '+' A ')' | '(' A '-' A ')' | '(' A '/' A ')' | '(' A '/' A ')'
+A -> '(' A '+' A ')' | '(' A '-' A ')' | '(' A '*' A ')' | '(' A '/' A ')' | N
 N -> X | X X | X '0' | '100' | '0'
 X -> '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 """
@@ -42,10 +42,10 @@ def parse(s, grammar):
      return tree
 
 if __name__ == '__main__':
-     print(grammarCFG.start())
-     print(grammarCFG.productions())
-     for s in generate(grammarCFG, n=3):
-          print(' '.join(s))
+     #print(grammarCFG.start())
+     #print(grammarCFG.productions())
+     #for s in generate(grammarCFG, n=3):
+     #     print(' '.join(s))
      archivo_entrada = sys.argv[1]
      archivo_salida = sys.argv[2]
      f = io.open(archivo_entrada, 'r', newline='\n', encoding='utf-8')
@@ -55,8 +55,8 @@ if __name__ == '__main__':
           tree = parse(s, grammar)
           if tree:
                #tree[0].draw()
-               print(tree[0])
-               print(replace(tree[0]))
+               #print(tree[0])
+               #print(replace(tree[0]))
                salida = "PERTENECE"
           else:
                salida = "NO PERTENECE"
