@@ -3,30 +3,31 @@
 import sys
 import io
 import nltk
-import ssl
-
-from nltk.tree import Tree
-
-from nltk.parse.generate import generate
-
-from nltk import CFG
 
 def replace(tree):
-
-     return ''
+     if isinstance(tree, nltk.Tree):
+          if tree.label() == 'S' or tree.label() == 'A':
+               if len(tree) == 5:
+                    left_operand = replace(tree[1])
+                    operator = tree[2]
+                    right_operand = replace(tree[3])
+                    return f'{operator}({left_operand},{right_operand})'
+               elif len(tree) == 3:
+                    left_operand = replace(tree[0])
+                    operator = tree[1]
+                    right_operand = replace(tree[2])
+                    return f'{operator}({left_operand},{right_operand})'
+               elif len(tree) == 1:
+                    return replace(tree[0])
+          elif tree.label() == 'X':
+               return tree.leaves()[0]
+     return ''.join(tree.leaves())
 
 # grammar definition
-grammarCFG = CFG.fromstring("""
-S -> S '+' S | S '-' S | S '/' S | S '*' S | N
-N -> X | X X | X '0' | '100' | '0'
-X -> '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-""")
-
 grammar = """
-S -> A '+' A | A '-' A | A '/' A | A '*' A | N
-A -> '(' A '+' A ')' | '(' A '-' A ')' | '(' A '*' A ')' | '(' A '/' A ')' | N
-N -> X | X X | X '0' | '100' | '0'
-X -> '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+S -> A '+' A | A '-' A | A '/' A | A '*' A | X
+A -> '(' A '+' A ')' | '(' A '-' A ')' | '(' A '*' A ')' | '(' A '/' A ')' | X
+X -> '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '13' | '14' | '15' | '16' | '17' | '18' | '19' | '20' | '21' | '22' | '23' | '24' | '25' | '26' | '27' | '28' | '29' | '30' | '31' | '32' | '33' | '34' | '35' | '36' | '37' | '38' | '39' | '40' | '41' | '42' | '43' | '44' | '45' | '46' | '47' | '48' | '49' | '50' | '51' | '52' | '53' | '54' | '55' | '56' | '57' | '58' | '59' | '60' | '61' | '62' | '63' | '64' | '65' | '66' | '67' | '68' | '69' | '70' | '71' | '72' | '73' | '74' | '75' | '76' | '77' | '78' | '79' | '80' | '81' | '82' | '83' | '84' | '85' | '86' | '87' | '88' | '89' | '90' | '91' | '92' | '93' | '94' | '95' | '96' | '97' | '98' | '99' | '100'
 """
 
 def parse(s, grammar):
@@ -42,10 +43,6 @@ def parse(s, grammar):
      return tree
 
 if __name__ == '__main__':
-     #print(grammarCFG.start())
-     #print(grammarCFG.productions())
-     #for s in generate(grammarCFG, n=3):
-     #     print(' '.join(s))
      archivo_entrada = sys.argv[1]
      archivo_salida = sys.argv[2]
      f = io.open(archivo_entrada, 'r', newline='\n', encoding='utf-8')
@@ -54,10 +51,7 @@ if __name__ == '__main__':
      try:
           tree = parse(s, grammar)
           if tree:
-               #tree[0].draw()
-               #print(tree[0])
-               #print(replace(tree[0]))
-               salida = "PERTENECE"
+               salida = replace(tree[0])
           else:
                salida = "NO PERTENECE"
      except ValueError:
